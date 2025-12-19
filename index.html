@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>BrandCraft</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    :root{
+      --bg:#F6F3EC;
+      --text:#0F0F0F;
+      --muted:#6B6B6B;
+      --card:#FFFFFF;
+      --gold:#D6B15E;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    .wrap{
+      max-width:420px;
+      margin:auto;
+      padding:22px 18px 40px;
+    }
+
+    /* HEADER */
+    .top{
+      font-size:12px;
+      letter-spacing:0.25em;
+      font-weight:700;
+      margin-bottom:28px;
+    }
+
+    h1{
+      font-size:46px;
+      line-height:1.05;
+      margin:0 0 14px;
+      letter-spacing:-0.03em;
+    }
+
+    .subtitle{
+      color:var(--muted);
+      font-size:16px;
+      margin-bottom:26px;
+    }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:42px;
+    }
+
+    .btn-main{
+      background:#111;
+      color:#fff;
+      padding:16px 26px;
+      border-radius:18px;
+      border:none;
+      font-size:16px;
+      font-weight:600;
+    }
+
+    .btn-link{
+      background:none;
+      border:none;
+      font-weight:600;
+      color:#111;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:16px;
+    }
+
+    h2{
+      font-size:32px;
+      margin-bottom:10px;
+      letter-spacing:-0.02em;
+    }
+
+    .desc{
+      color:var(--muted);
+      font-size:16px;
+      margin-bottom:22px;
+    }
+
+    /* GRID */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:22px;
+      padding:12px;
+      box-shadow:0 8px 30px rgba(0,0,0,.06);
+    }
+
+    .box{
+      aspect-ratio:1/1;
+      border-radius:18px;
+      background:#111;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:42px;
+      font-weight:700;
+      color:var(--gold);
+    }
+
+    .box.light{
+      background:#fff;
+      border:1px solid #eee;
+    }
+
+    .title{
+      font-size:14px;
+      font-weight:600;
+      margin-top:12px;
+      line-height:1.2;
+    }
+
+    .price{
+      margin-top:8px;
+      font-size:18px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top">TELEGRAM</div>
+
+    <h1>Create your<br>custom design</h1>
+    <div class="subtitle">Order, earn, and own designs</div>
+
+    <div class="actions">
+      <button class="btn-main">Create Design</button>
+      <button class="btn-link">★ Showcase</button>
+    </div>
+
+    <h2>Launch your brand</h2>
+    <div class="desc">
+      Create your custom design and start selling products under your own brand
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="box">&amp;</div>
+        <div class="title">Skincare Design</div>
+        <div class="price">25 ⭐</div>
+      </div>
+
+      <div class="card">
+        <div class="box light">J</div>
+        <div class="title">Jewelry Design</div>
+        <div class="price">30 ⭐</div>
+      </div>
+
+      <div class="card">
+        <div class="box">L</div>
+        <div class="title">Branded Gift Design</div>
+        <div class="price">45 ⭐</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if (window.Telegram?.WebApp) {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+  </script>
+</body>
+</html>
