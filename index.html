@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrandCraft</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+body{
+  margin:0;
+  background:#f6f2ec;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  color:#111;
+}
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:20px;
+}
+.hidden{display:none}
+
+.header{
+  font-size:12px;
+  letter-spacing:.2em;
+  font-weight:700;
+  margin-bottom:16px;
+}
+
+h1{
+  font-size:38px;
+  line-height:1.05;
+  margin:0 0 10px;
+}
+.sub{
+  color:#666;
+  margin-bottom:22px;
+}
+
+.actions{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  margin-bottom:28px;
+}
+
+.btn-main{
+  background:#111;
+  color:#fff;
+  border:none;
+  border-radius:999px;
+  padding:14px 26px;
+  font-size:16px;
+  font-weight:600;
+}
+
+.btn-link{
+  background:none;
+  border:none;
+  font-size:16px;
+  font-weight:600;
+}
+
+.card{
+  background:#fff;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,.08);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:20px;
+}
+
+/* ВАЖНО: BUTTON, а не div */
+.box{
+  background:#fafafa;
+  border-radius:18px;
+  padding:14px;
+  text-align:center;
+  border:none;
+}
+
+.box-top{
+  height:90px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:700;
+  color:#c6a55b;
+  margin-bottom:10px;
+}
+
+.black{background:#111}
+.white{background:#f1f1f1}
+
+.price{
+  margin-top:4px;
+  font-weight:700;
+  color:#c6a55b;
+}
+
+.back{
+  background:none;
+  border:none;
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:16px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid #ddd;
+  font-size:16px;
+  margin-bottom:16px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div class="container" id="home">
+  <div class="header">BRANDCRAFT</div>
+
+  <h1>Create your<br>custom design</h1>
+  <div class="sub">Order, earn, and own designs</div>
+
+  <div class="actions">
+    <button class="btn-main" onclick="openBrand()">Create Brand</button>
+    <button class="btn-link" onclick="openShowcase()">★ Showcase</button>
+  </div>
+
+  <div class="card">
+    <h2>Launch your brand</h2>
+    <div class="sub">Create your custom design and start selling products</div>
+
+    <div class="grid">
+      <button class="box" onclick="openProduct('Skincare Design',25)">
+        <div class="box-top black">S</div>
+        Skincare
+        <div class="price">25 ★</div>
+      </button>
+
+      <button class="box" onclick="openProduct('Jewelry Design',30)">
+        <div class="box-top white">J</div>
+        Jewelry
+        <div class="price">30 ★</div>
+      </button>
+
+      <button class="box" onclick="openProduct('Branded Gift',45)">
+        <div class="box-top black">L</div>
+        Gift
+        <div class="price">45 ★</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE BRAND -->
+<div class="container hidden" id="brand">
+  <button class="back" onclick="goHome()">← Back</button>
+  <h1>Create brand</h1>
+  <div class="sub">Enter your brand name</div>
+
+  <input id="brandInput" placeholder="Brand name">
+  <button class="btn-main" onclick="saveBrand()">Save Brand</button>
+</div>
+
+<!-- PRODUCT -->
+<div class="container hidden" id="product">
+  <button class="back" onclick="goHome()">← Back</button>
+  <h1 id="productName"></h1>
+  <div class="sub" id="productPrice"></div>
+
+  <button class="btn-main" onclick="buy()">Buy</button>
+</div>
+
+<!-- SHOWCASE -->
+<div class="container hidden" id="showcase">
+  <button class="back" onclick="goHome()">← Back</button>
+  <h1>Showcase</h1>
+  <div class="sub">Community designs (demo)</div>
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+let currentProduct = {};
+
+function hideAll(){
+  home.classList.add('hidden');
+  brand.classList.add('hidden');
+  product.classList.add('hidden');
+  showcase.classList.add('hidden');
+}
+
+function goHome(){
+  hideAll();
+  home.classList.remove('hidden');
+}
+
+function openBrand(){
+  hideAll();
+  brand.classList.remove('hidden');
+}
+
+function saveBrand(){
+  const name = brandInput.value.trim();
+  if(!name) return alert('Enter brand name');
+  localStorage.setItem('brandName',name);
+  tg.HapticFeedback.impactOccurred("medium");
+  goHome();
+}
+
+function openProduct(name,price){
+  const brand = localStorage.getItem('brandName');
+  if(!brand){
+    tg.showAlert('Create brand first');
+    return;
+  }
+  currentProduct = {name,price};
+  productName.innerText = name;
+  productPrice.innerText = price+' ★';
+  hideAll();
+  product.classList.remove('hidden');
+}
+
+function buy(){
+  tg.HapticFeedback.impactOccurred("heavy");
+  tg.showAlert('Buying '+currentProduct.name+' for '+currentProduct.price+' ★');
+}
+
+function openShowcase(){
+  hideAll();
+  showcase.classList.remove('hidden');
+}
+</script>
+
+</body>
+</html>
