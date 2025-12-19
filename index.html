@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BrandCraft</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+  body {
+    margin: 0;
+    background: #f6f2ec;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    color: #111;
+  }
+
+  .container {
+    max-width: 420px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  .header {
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 40px;
+    line-height: 1.05;
+    margin: 0 0 12px 0;
+  }
+
+  .subtitle {
+    color: #666;
+    margin-bottom: 24px;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .btn-main {
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .link {
+    font-weight: 500;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  }
+
+  .card h2 {
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .box {
+    background: #fafafa;
+    border-radius: 18px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .box-top {
+    height: 90px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 600;
+    color: #c6a55b;
+    margin-bottom: 12px;
+  }
+
+  .black { background: #111; }
+  .white { background: #f2f2f2; color:#c6a55b; }
+
+  .stars {
+    color: #c6a55b;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+
+  /* BRAND SCREEN */
+  #brandScreen {
+    display: none;
+  }
+
+  input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .brand-name {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #111;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container" id="mainScreen">
+  <div class="header">BRANDCRAFT</div>
+
+  <h1>Create your<br>custom design</h1>
+  <div class="subtitle">Order, earn, and own designs</div>
+
+  <div class="actions">
+    <button class="btn-main" id="createBrandBtn">Create Brand</button>
+    <div class="link">★ Showcase</div>
+  </div>
+
+  <div class="card">
+    <h2>Launch your brand</h2>
+    <div class="subtitle">Create your custom design and start selling products</div>
+
+    <div class="grid">
+      <div class="box">
+        <div class="box-top black">S</div>
+        Skincare Design
+        <div class="stars">25 ★</div>
+      </div>
+
+      <div class="box">
+        <div class="box-top white">J</div>
+        Jewelry Design
+        <div class="stars">30 ★</div>
+      </div>
+
+      <div class="box">
+        <div class="box-top black">L</div>
+        Branded Gift
+        <div class="stars">45 ★</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND CREATE SCREEN -->
+<div class="container" id="brandScreen">
+  <div class="header">CREATE BRAND</div>
+
+  <div class="brand-name" id="currentBrand"></div>
+
+  <input id="brandInput" placeholder="Enter your brand name" />
+
+  <button class="btn-main" id="saveBrandBtn">Save Brand</button>
+</div>
+
+<script>
+  const tg = window.Telegram.WebApp;
+  tg.expand();
+
+  const mainScreen = document.getElementById('mainScreen');
+  const brandScreen = document.getElementById('brandScreen');
+  const createBrandBtn = document.getElementById('createBrandBtn');
+  const saveBrandBtn = document.getElementById('saveBrandBtn');
+  const brandInput = document.getElementById('brandInput');
+  const currentBrand = document.getElementById('currentBrand');
+
+  function loadBrand() {
+    const brand = localStorage.getItem('brandName');
+    if (brand) {
+      currentBrand.innerText = "Your brand: " + brand;
+    }
+  }
+
+  createBrandBtn.onclick = () => {
+    mainScreen.style.display = 'none';
+    brandScreen.style.display = 'block';
+    loadBrand();
+  };
+
+  saveBrandBtn.onclick = () => {
+    const name = brandInput.value.trim();
+    if (!name) {
+      alert('Enter brand name');
+      return;
+    }
+    localStorage.setItem('brandName', name);
+    brandInput.value = '';
+    alert('Brand saved');
+    brandScreen.style.display = 'none';
+    mainScreen.style.display = 'block';
+  };
+
+  loadBrand();
+</script>
+
+</body>
+</html>
